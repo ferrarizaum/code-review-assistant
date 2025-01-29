@@ -54,4 +54,4 @@ jobs:
         # Send the diff to the API endpoint
         curl -X POST http://localhost:5000/api/Review/code \
           -H "Content-Type: application/json" \
-          -d "{\"diff\": \"$DIFF_CONTENT\"}"
+          -d "{\"code\": \"$DIFF_CONTENT\"}"
