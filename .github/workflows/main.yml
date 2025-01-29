@@ -36,3 +36,22 @@ jobs:
       run: |
         # Example: Print the diff to the console
         cat commit_diff.txt
+        
+    - name: Publish the API
+      run: dotnet publish -c Release -o ./publish
+
+    - name: Run the API
+      run: |
+        cd ./publish
+        dotnet CodeReviewAssistant.dll &  # Run the API in the background
+        sleep 5  # Wait for the API to start (adjust the sleep duration as needed)
+
+    - name: Send the diff to the API
+      run: |
+        # Read the content of commit_diff.txt
+        DIFF_CONTENT=$(cat commit_diff.txt)
+        
+        # Send the diff to the API endpoint
+        curl -X POST http://localhost:5000/api/Review/code \
+          -H "Content-Type: application/json" \
+          -d "{\"diff\": \"$DIFF_CONTENT\"}"
