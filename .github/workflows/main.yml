@@ -48,10 +48,18 @@ jobs:
 
     - name: Send the diff to the API
       run: |
-        # Read the content of commit_diff.txt
-        DIFF_CONTENT=$(cat commit_diff.txt)
+        # Install jq (if not already installed)
+        sudo apt-get install -y jq
+    
+        # Read and escape the diff content using jq
+        DIFF_CONTENT=$(jq -sR . commit_diff.txt)
         
-        # Send the diff to the API endpoint
+        # Send the diff to the API endpoint and save the response
         curl -X POST http://localhost:5000/api/Review/code \
           -H "Content-Type: application/json" \
-          -d "{\"code\": \"$DIFF_CONTENT\"}"
+          -d "{\"diff\": $DIFF_CONTENT}" \
+          -o response.txt
+        
+        # Print the API response to the console
+        echo "API Response:"
+        cat response.txt
