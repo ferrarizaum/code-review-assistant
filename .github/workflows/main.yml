@@ -36,3 +36,11 @@ jobs:
       run: |
         # Example: Print the diff to the console
         cat commit_diff.txt
+        
+    - name: Publish the API
+      run: dotnet publish -c Release -o ./publish
+
+    - name: Run the API
+      run: |
+        cd ./publish
+        dotnet CodeReviewAssistant.dll  # Replace with the actual DLL file name for your API
