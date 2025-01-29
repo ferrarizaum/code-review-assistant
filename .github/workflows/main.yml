@@ -1,7 +1,7 @@
 name: Code Review with OpenAI
 
 on:
-  push:
+  pull_request:
     branches:
       - master
 
