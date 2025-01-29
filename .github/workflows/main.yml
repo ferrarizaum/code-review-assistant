@@ -63,29 +63,32 @@ jobs:
           # Read and escape the diff content using jq
           DIFF_CONTENT=$(jq -sR . pr_diff.txt)
           
-          # Send the diff to the API endpoint and save the response
+          # Send the diff to the API endpoint and save the response as a JSON file
           curl -X POST http://localhost:5000/api/Review/code \
             -H "Content-Type: application/json" \
-            -d "{\"code\": $DIFF_CONTENT}" \
-            -o response.txt
+            -d "{\"diff\": $DIFF_CONTENT}" \
+            -o response.json
           
           # Print the API response to the console
           echo "API Response:"
-          cat response.txt
+          cat response.json
+
+      - name: Extract the result property
+        run: |
+          # Extract the "result" property from the JSON file
+          RESULT=$(jq -r '.result' response.json)
+          
+          # Debug: Print the RESULT variable
+          echo "RESULT:"
+          echo "$RESULT"
+          echo "response.json:"
+          cat response.json
 
       - name: Post API response as a PR comment
         run: |
-          # Extract the "result" property from the API response
-          RESULT=$(jq -r '.result' response.txt)
-          
           # Post the "result" as a comment on the PR
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-            -d "{\"body\":${RESULT}}"
-
-      - name: Debug RESULT
-        run: |
-          echo "RESULT:"
-          echo "$RESULT"
+            -d "{\"body\": \"**Code Review Result:**\n\n$RESULT\"}"
