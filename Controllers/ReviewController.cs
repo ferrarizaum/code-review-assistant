@@ -30,6 +30,10 @@ namespace CodeReviewAssistant.Controllers
                 return NotFound();
             Console.WriteLine("teste");
             Console.WriteLine("teste");
+            Console.WriteLine("teste");
+            Console.WriteLine("teste");
+
+
             return Ok(results);
         }
     }
