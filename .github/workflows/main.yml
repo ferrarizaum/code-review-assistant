@@ -75,12 +75,12 @@ jobs:
 
       - name: Post API response as a PR comment
         run: |
-          # Read the API response
-          API_RESPONSE=$(cat response.txt)
+          # Read the API response and escape it using jq
+          API_RESPONSE=$(jq -sR . response.txt)
           
           # Post the API response as a comment on the PR
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-            -d "{\"body\": \"$API_RESPONSE"}"
+            -d "{\"body\": \"API Response:\n\`\`\`json\n$API_RESPONSE\n\`\`\`\"}"
