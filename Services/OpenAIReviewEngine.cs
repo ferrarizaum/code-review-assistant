@@ -20,7 +20,7 @@ namespace CodeReviewAssistant.Services
 
         public async Task<ReviewResultDTO> AnalyzeCodeAsync(string code)
         {
-            ChatCompletion completion = await _client.CompleteChatAsync($"Review the following code for best practices, security issues, and optimizations:\n{code}");
+            ChatCompletion completion = await _client.CompleteChatAsync($"Review the following code for best practices, security issues, and optimizations:\n{code}, be brief");
 
             return new ReviewResultDTO
             {
