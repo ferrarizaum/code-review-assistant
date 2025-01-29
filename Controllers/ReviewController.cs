@@ -29,6 +29,7 @@ namespace CodeReviewAssistant.Controllers
             if (results == null)
                 return NotFound();
             Console.WriteLine("teste");
+            Console.WriteLine("teste");
             return Ok(results);
         }
     }
