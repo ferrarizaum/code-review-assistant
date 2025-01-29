@@ -28,8 +28,8 @@ namespace CodeReviewAssistant.Controllers
             var results = await _codeReviewService.GetReviewResultDTOsAsync(id);
             if (results == null)
                 return NotFound();
-            
 
+            Console.WriteLine("teste");
 
             return Ok(results);
         }
