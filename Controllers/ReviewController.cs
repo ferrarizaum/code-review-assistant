@@ -18,8 +18,8 @@ namespace CodeReviewAssistant.Controllers
         [HttpPost("code")]
         public async Task<IActionResult> SubmitCode([FromBody] CodeSubmissionDTO submission)
         {
-            var resultId = await _codeReviewService.ReviewCodeAsync(submission.Code);
-            return Ok(new { resultId });
+            var result = await _codeReviewService.ReviewCodeAsync(submission.Code);
+            return Ok(new { result });
         }
 
         [HttpGet("results/{id}")]
@@ -28,8 +28,6 @@ namespace CodeReviewAssistant.Controllers
             var results = await _codeReviewService.GetReviewResultDTOsAsync(id);
             if (results == null)
                 return NotFound();
-
-            Console.WriteLine("teste");
 
             return Ok(results);
         }
