@@ -32,6 +32,7 @@ namespace CodeReviewAssistant.Controllers
             Console.WriteLine("teste");
             Console.WriteLine("teste");
             Console.WriteLine("teste");
+            Console.WriteLine("teste");
 
 
             return Ok(results);
