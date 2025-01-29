@@ -1,9 +1,9 @@
 name: Code Review with OpenAI
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - master
 
 jobs:
   review:
