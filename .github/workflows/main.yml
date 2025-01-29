@@ -1,7 +1,7 @@
 name: Code Review with OpenAI
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 2  # Fetch the last 2 commits to compare
 
     - name: Set up .NET
       uses: actions/setup-dotnet@v1
@@ -23,26 +25,14 @@ jobs:
         dotnet restore
         dotnet build
 
-    - name: Get the diff of the PR
+    - name: Get the diff of the latest commit
       id: diff
       run: |
-        # Fetch the pull request diff using the GitHub API
-        PR_DIFF=$(curl -s \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3.diff" \
-          https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }})
-        
-        # Check if the API request was successful
-        if [ -z "$PR_DIFF" ]; then
-          echo "Error: Failed to fetch PR diff"
-          exit 1
-        fi
-        
-        # Save the diff to a file
-        echo "$PR_DIFF" > pr_diff.txt
-        echo "PR diff saved to pr_diff.txt"
+        # Get the diff between the latest commit and the previous one
+        git diff HEAD^ HEAD > commit_diff.txt
+        echo "Commit diff saved to commit_diff.txt"
 
     - name: Use the diff in the next step
       run: |
         # Example: Print the diff to the console
-        cat pr_diff.txt
+        cat commit_diff.txt
