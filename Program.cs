@@ -12,7 +12,7 @@ builder.Services.AddScoped<ICodeReviewService, CodeReviewService>();
 builder.Services.AddScoped<IAIReviewEngine, OpenAIReviewEngine>(provider =>
 {
     var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY"); // Get the API key from configuration.
-    return new OpenAIReviewEngine(apiKey); // Pass the API key to the constructor.
+    return new OpenAIReviewEngine(); // Pass the API key to the constructor.
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
