@@ -31,6 +31,14 @@ namespace CodeReviewAssistant.Controllers
 
             return Ok(results);
         }
+
+        [HttpGet("sample")]
+        public IActionResult SampleEndpoint()
+        {
+            var result = "Hello World";
+            
+            return Ok(result);
+        }
     }
 
 }
