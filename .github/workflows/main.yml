@@ -75,8 +75,8 @@ jobs:
 
       - name: Post API response as a PR comment
         run: |
-          # Escape the RESULT variable as a JSON string
-          API_RESPONSE=$(jq -sR . response.result)
+          # Extract the "result" property from response.json and escape it as a JSON string
+          API_RESPONSE=$(jq -r '.result | tostring' response.json | jq -sR .)
           
           # Post the "result" as a comment on the PR
           curl -X POST \
