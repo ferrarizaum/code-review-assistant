@@ -71,12 +71,12 @@ jobs:
           
           # Print the API response to the console
           echo "API Response:"
-          cat response.txt
+          cat response.json
 
       - name: Post API response as a PR comment
         run: |
           # Escape the RESULT variable as a JSON string
-          API_RESPONSE=$(jq -sR . response.txt)
+          API_RESPONSE=$(jq -sR . response.result)
           
           # Post the "result" as a comment on the PR
           curl -X POST \
