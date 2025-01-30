@@ -19,6 +19,9 @@ namespace CodeReviewAssistant.Controllers
         public async Task<IActionResult> SubmitCode([FromBody] CodeSubmissionDTO submission)
         {
             var result = await _codeReviewService.ReviewCodeAsync(submission.Code);
+            
+            Console.WriteLine(result);  
+
             return Ok(new { result });
         }
 
