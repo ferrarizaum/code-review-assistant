@@ -23,17 +23,11 @@ namespace CodeReviewAssistant.Services
             var result = await _aiReviewEngine.AnalyzeCodeAsync(code);
             var resultId = Guid.NewGuid();
 
-            // Save result to the database (not shown here)
-            // ...
-            Console.WriteLine(result.Feedback);
-            //return resultId;
             return result.Feedback;
         }
 
         public async Task<ReviewResultDTO> GetReviewResultDTOsAsync(Guid id)
         {
-            // Fetch results from the database (not shown here)
-            // ...
 
             return await Task.FromResult<ReviewResultDTO>(null); // Placeholder
         }
