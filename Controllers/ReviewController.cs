@@ -32,6 +32,14 @@ namespace CodeReviewAssistant.Controllers
 
             return Ok(results);
         }
+
+        // post comment endpoint
+        [HttpPost("comment")]
+        public async Task<IActionResult> SubmitComment()
+        {
+            
+            return Ok();
+        }
     }
 
 }
