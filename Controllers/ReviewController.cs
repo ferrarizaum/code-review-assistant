@@ -35,9 +35,9 @@ namespace CodeReviewAssistant.Controllers
 
         // post comment endpoint
         [HttpPost("comment")]
-        public async Task<IActionResult> SubmitComment()
+        public async Task<IActionResult> SubmitComment([FromBody] CommentSubmissionDTO submission)
         {
-            
+            Console.WriteLine(submission);
             return Ok();
         }
     }
