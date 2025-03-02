@@ -1,0 +1,86 @@
+name: Execute Workflow on Pull Request to Master
+
+on:
+  pull_request:
+    branches:
+      - master  # Trigger when a PR is opened targeting the master branch
+    types:
+      - opened  # Trigger only when the PR is opened
+      - synchronize  # Trigger when the PR is updated with new commits
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0'
+
+      - name: Install dependencies
+        run: |
+          dotnet restore
+          dotnet build
+
+      - name: Get the diff of the PR
+        id: diff
+        run: |
+          # Fetch the diff of the PR
+          PR_DIFF=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3.diff" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }})
+          
+          # Save the diff to a file
+          echo "$PR_DIFF" > pr_diff.txt
+          echo "PR diff saved to pr_diff.txt"
+
+      - name: Use the diff in the next step
+        run: |
+          # Example: Print the diff to the console
+          cat pr_diff.txt
+
+      - name: Publish the API
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Run the API
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} 
+        run: |
+          cd ./publish
+          dotnet CodeReviewAssistant.dll &  # Run the API in the background
+          sleep 5  # Wait for the API to start (adjust the sleep duration as needed)
+
+      - name: Send the diff to the API
+        run: |
+          # Install jq (if not already installed)
+          sudo apt-get install -y jq
+      
+          # Read and escape the diff content using jq
+          DIFF_CONTENT=$(jq -sR . pr_diff.txt)
+          
+          # Send the diff to the API endpoint and save the response as a JSON file
+          curl -X POST http://localhost:5000/api/Review/code \
+            -H "Content-Type: application/json" \
+            -d "{\"code\": $DIFF_CONTENT}" \
+            -o response.json
+          
+          # Print the API response to the console
+          echo "API Response:"
+          cat response.json
+
+      - name: Post API response as a PR comment
+        run: |
+          # Extract the "result" property from response.json and escape it as a JSON string
+          API_RESPONSE=$(jq -r '.result | tostring' response.json | jq -sR .)
+          
+          # Post the "result" as a comment on the PR
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            -d "{\"body\":${API_RESPONSE}}"
