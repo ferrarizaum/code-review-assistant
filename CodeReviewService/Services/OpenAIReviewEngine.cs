@@ -15,16 +15,17 @@ namespace CodeReviewAssistant.Services
 
         public OpenAIReviewEngine()
         {
-            _client = new(model: "gpt-4o-mini", apiKey: Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
+            _client = new(model: "gpt-3.5-turbo", apiKey: Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
         }
 
         public async Task<ReviewResultDTO> AnalyzeCodeAsync(string code)
         {
-            ChatCompletion completion = await _client.CompleteChatAsync($"Write a two line review about the following code:\n{code}");
+            //ChatCompletion completion = await _client.CompleteChatAsync($"Write a two line review about the following code:\n{code}");
 
             return new ReviewResultDTO
             {
-                Feedback = completion.Content.First().Text
+                //Feedback = completion.Content.First().Text
+                Feedback = "This is the result"
             };
         }
     }
