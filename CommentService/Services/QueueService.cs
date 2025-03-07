@@ -1,6 +1,18 @@
-﻿namespace CommentService.Services
+﻿using CommentService.DTO;
+
+namespace CommentService.Services
 {
-    public class QueueService
+    public interface IQueueService
     {
+    }
+
+    public class QueueService : IQueueService
+    {
+        public QueueService()
+        {
+
+        }
+
+
     }
 }
