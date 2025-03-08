@@ -16,7 +16,7 @@ namespace CommentService.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CommentDTO comment) 
+        public IActionResult Post(/*CommentDTO*/string comment) 
         {
             return Ok();
         }
