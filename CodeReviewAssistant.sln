@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeReviewService", "CodeReviewService\CodeReviewService.csproj", "{A8AE5417-5DAB-4F94-B35C-FC5854A50B72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentService", "CommentService\CommentService.csproj", "{C6ABE14C-6865-43ED-A188-DFC8D87451CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8AE5417-5DAB-4F94-B35C-FC5854A50B72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8AE5417-5DAB-4F94-B35C-FC5854A50B72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8AE5417-5DAB-4F94-B35C-FC5854A50B72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8AE5417-5DAB-4F94-B35C-FC5854A50B72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6ABE14C-6865-43ED-A188-DFC8D87451CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6ABE14C-6865-43ED-A188-DFC8D87451CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6ABE14C-6865-43ED-A188-DFC8D87451CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6ABE14C-6865-43ED-A188-DFC8D87451CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26F5D530-6A9C-4CE3-ADB8-8EE33399EB73}
+	EndGlobalSection
+EndGlobal
