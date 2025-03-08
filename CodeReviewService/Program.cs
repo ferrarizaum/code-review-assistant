@@ -6,13 +6,13 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<ICodeReviewService, CodeReviewService>();
 //builder.Services.AddScoped<IAIReviewEngine, OpenAIReviewEngine>();
-
+/*
 builder.Services.AddScoped<IAIReviewEngine, OpenAIReviewEngine>(provider =>
 {
     var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY"); 
     return new OpenAIReviewEngine(); 
 });
-
+*/
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

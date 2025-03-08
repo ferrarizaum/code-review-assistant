@@ -6,11 +6,11 @@ namespace CodeReviewAssistant.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ReviewController : ControllerBase
+    public class CodeReviewController : ControllerBase
     {
         private readonly ICodeReviewService _codeReviewService;
 
-        public ReviewController(ICodeReviewService codeReviewService)
+        public CodeReviewController(ICodeReviewService codeReviewService)
         {
             _codeReviewService = codeReviewService;
         }
@@ -21,16 +21,6 @@ namespace CodeReviewAssistant.Controllers
             var result = await _codeReviewService.ReviewCodeAsync(submission.Code);
             
             return Ok(new { result });
-        }
-
-        [HttpGet("results/{id}")]
-        public async Task<IActionResult> GetReviewResultDTOs(Guid id)
-        {
-            var results = await _codeReviewService.GetReviewResultDTOsAsync(id);
-            if (results == null)
-                return NotFound();
-
-            return Ok(results);
         }
     }
 

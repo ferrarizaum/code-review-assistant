@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "CommentService.Controllers.CommentController",
+    "Method": "Post",
+    "RelativePath": "api/Comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "comment",
+        "Type": "CommentService.DTO.CommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
