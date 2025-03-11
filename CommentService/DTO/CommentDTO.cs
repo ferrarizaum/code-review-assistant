@@ -2,9 +2,10 @@
 {
     public class CommentDTO
     {
-        public string Comment { get; set; }
-        public string PullRequestURL { get; set; }
-        public string AccountSettings { get; set; }
+        public string Owner { get; set; }
+        public string Repository { get; set; }
+        public int PullRequestNumber { get; set; }
+        public string Comment{ get; set; }
 
     }
 }

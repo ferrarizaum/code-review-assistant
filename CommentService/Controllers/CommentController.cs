@@ -16,9 +16,10 @@ namespace CommentService.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(/*CommentDTO*/string comment) 
+        public async Task<IActionResult> Post(CommentDTO comment) 
         {
-            return Ok();
+            var result = await _commentService.PostComment(comment);
+            return Ok(result);
         }
     }
 }

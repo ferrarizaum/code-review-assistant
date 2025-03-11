@@ -1,4 +1,5 @@
 ﻿using CommentService.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CommentService.Services
 {
@@ -15,10 +16,11 @@ namespace CommentService.Services
             
         }
 
-        public Task<string> PostComment(CommentDTO comment)
+        public async Task<string> PostComment(CommentDTO comment)
         {
             //add logic for comment posting
-            throw new NotImplementedException();
+            var result = comment.Comment;
+            return result;
         }
     }
 }
