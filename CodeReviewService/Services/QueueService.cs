@@ -1,4 +1,4 @@
-﻿namespace CommentService.Services
+﻿namespace CodeReviewService.Services
 {
     public interface IQueueService
     {
