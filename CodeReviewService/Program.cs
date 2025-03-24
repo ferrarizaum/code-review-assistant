@@ -1,10 +1,11 @@
-using CodeReviewAssistant.Services;
+using CodeReviewService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<ICodeReviewService, CodeReviewService>();
+builder.Services.AddScoped<ICodeReviewService, ReviewService>();
+builder.Services.AddScoped<IQueueService, QueueService>();
 //builder.Services.AddScoped<IAIReviewEngine, OpenAIReviewEngine>();
 /*
 builder.Services.AddScoped<IAIReviewEngine, OpenAIReviewEngine>(provider =>

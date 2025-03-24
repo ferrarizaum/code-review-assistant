@@ -1,17 +1,15 @@
-﻿using CodeReviewAssistant.DTO;
-
-namespace CodeReviewAssistant.Services
+﻿namespace CodeReviewService.Services
 {
     public interface ICodeReviewService
     {
         Task<string> ReviewCodeAsync(string code);
     }
 
-    public class CodeReviewService : ICodeReviewService
+    public class ReviewService : ICodeReviewService
     {
         //private readonly IAIReviewEngine _aiReviewEngine;
 
-        public CodeReviewService(/*IAIReviewEngine aiReviewEngine*/)
+        public ReviewService(/*IAIReviewEngine aiReviewEngine*/)
         {
             // _aiReviewEngine = aiReviewEngine;
         }
