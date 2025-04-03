@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Connections;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
 namespace CommentService.Services
 {
-    public interface IQueueService
-    {
-        void StartListening();
-    }
-
-    public class QueueService : IQueueService
+    public class QueueService : BackgroundService
     {
         private readonly ConnectionFactory _factory;
         private readonly ILogger<QueueService> _logger;
+        private IConnection _connection;
+        private IChannel _channel;  
+
         public QueueService(ILogger<QueueService> logger)
         {
             _factory = new ConnectionFactory()
@@ -24,15 +20,14 @@ namespace CommentService.Services
                 Password = "guest"
             };
             _logger = logger;
-
         }
 
-        public async void StartListening()
+        public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var connection = await _factory.CreateConnectionAsync();
-            using var channel = await connection.CreateChannelAsync();
+            _connection = await _factory.CreateConnectionAsync();
+            _channel = await _connection.CreateChannelAsync();  
 
-            await channel.QueueDeclareAsync(
+            await _channel.QueueDeclareAsync(
                 queue: "myQueue",
                 durable: false,
                 exclusive: false,
@@ -40,7 +35,13 @@ namespace CommentService.Services
                 arguments: null
             );
 
-            var consumer = new AsyncEventingBasicConsumer(channel);
+            _logger.LogInformation("RabbitMQ connection and channel established.");
+            await base.StartAsync(cancellationToken);
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.ReceivedAsync += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
@@ -50,15 +51,22 @@ namespace CommentService.Services
                 await Task.CompletedTask;
             };
 
-            await channel.BasicConsumeAsync(
-                queue: "myQueue",
-                autoAck: true,
-                consumer: consumer
-            );
+            await _channel.BasicConsumeAsync(queue: "myQueue", autoAck: true, consumer: consumer);
 
             _logger.LogInformation("Listener started. Waiting for messages...");
 
-            Console.ReadLine();
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(1000, stoppingToken);
+            }
+        }
+
+        public override Task StopAsync(CancellationToken cancellationToken)
+        {
+            _channel?.CloseAsync();
+            _connection?.CloseAsync();
+            _logger.LogInformation("RabbitMQ consumer stopped.");
+            return base.StopAsync(cancellationToken);
         }
     }
 }
